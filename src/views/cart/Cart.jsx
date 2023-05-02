@@ -16,16 +16,17 @@ const onSubmitApplyCouponCode = async values => {
   alert(JSON.stringify(values));
 };
 
-const addProduct = (shoppingCart, shoppingCartproduct, updateCount) => {
-  //Start here
+const addProduct = (shoppingCart, shoppingCartproduct, updateCount, setShoppingCart) => {
+  shoppingCart.addProduct(shoppingCartproduct.product);
 
-  //End here
+  getNewCount(shoppingCart, updateCount);
+  setShoppingCart(shoppingCart);
 }
 
 const removeProduct = (shoppingCart, shoppingCartproduct, updateCount) => {
-  //Start here
-
-  //End here
+  shoppingCart.removeProduct(shoppingCartproduct._id);
+  getNewCount(shoppingCart, updateCount)
+  
 }
 
 const removeAllProduct = (shoppingCart, shoppingCartproduct, updateCount) => {
@@ -35,18 +36,27 @@ const removeAllProduct = (shoppingCart, shoppingCartproduct, updateCount) => {
 }
 
 const getNewCount = (shoppingCart, updateCount) => {
-  //Start here
+  const total = shoppingCart.products.size > 0
+   ? Array.from(shoppingCart.products.values()).map(product => product.count).reduce((prev, curr) => prev + curr)
+   : 0;
+  updateCount(total);
+  }
 
-  //End here
-}
 
 const getTotalCost = (shoppingCart) => {
-  //Start here
+  
 
-  //End here
+  const products = Array.from(shoppingCart.products.values());
+  
+  let total = 0;
+  for (let i = 0; i < products.length; i++) {
+    console.log(products[i]);
+    total = total + (products[i].count * products[i].product.price)
+  }
+  return total;
 }
 
-const ProductList = ({shoppingCart, updateCount}) => {
+const ProductList = ({shoppingCart, updateCount, setShoppingCart}) => {
   const products = Array.from(shoppingCart.products.values());
   return (
     <>
@@ -102,14 +112,15 @@ const ProductList = ({shoppingCart, updateCount}) => {
                           <FontAwesomeIcon icon={faMinus} />
                         </button>
                         <input
+                          id={"qty-" + wrapper.product._id}
                           type="text"
                           className="form-control"
-                          defaultValue={wrapper.count}
+                          value={wrapper.count}
                         />
                         <button
                           className="btn btn-primary text-white"
                           type="button"
-                          onClick={(e) => addProduct(shoppingCart, wrapper, updateCount)}
+                          onClick={(e) => addProduct(shoppingCart, wrapper, updateCount, setShoppingCart)}
                         >
                           <FontAwesomeIcon icon={faPlus} />
                         </button>
@@ -154,7 +165,7 @@ const ProductList = ({shoppingCart, updateCount}) => {
   );
 }
 
-export default function CartView({ shoppingCart, updateCount }) {
+export default function CartView({ shoppingCart, updateCount, setShoppingCart }) {
   return (
     <>
       <div className="bg-secondary border-top p-4 text-white mb-3">
@@ -163,7 +174,7 @@ export default function CartView({ shoppingCart, updateCount }) {
       <div className="container mb-3">
         <div className="row">
           <div className="col-md-9">
-            <ProductList shoppingCart={shoppingCart} updateCount={updateCount}  />
+            <ProductList shoppingCart={shoppingCart} updateCount={updateCount} setShoppingCart={setShoppingCart}  />
             <div className="alert alert-success mt-3">
               <p className="m-0">
                 <IconTruck className="i-va mr-2" /> Free Delivery within 1-2
@@ -181,7 +192,7 @@ export default function CartView({ shoppingCart, updateCount }) {
               <div className="card-body">
                 <dl className="row border-bottom">
                   <dt className="col-6">Total price:</dt>
-                  <dd className="col-6 text-right">${ getTotalCost(shoppingCart) }</dd>
+                  <dd className="col-6 text-right">${ getTotalCost(shoppingCart).toFixed(2) }</dd>
 
                   <dt className="col-6 text-success">Discount:</dt>
                   <dd className="col-6 text-success text-right">-$0.00</dd>
@@ -194,7 +205,7 @@ export default function CartView({ shoppingCart, updateCount }) {
                 <dl className="row">
                   <dt className="col-6">Total:</dt>
                   <dd className="col-6 text-right  h5">
-                    <strong>${ getTotalCost(shoppingCart) }</strong>
+                    <strong>${ getTotalCost(shoppingCart).toFixed(2) }</strong>
                   </dd>
                 </dl>
                 <hr />

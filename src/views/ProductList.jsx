@@ -8,6 +8,7 @@ export default function ProductList({ allproducts, match }) {
   const cat = params.cat || "Animal";
   //Your code starts here
   const products = allproducts.filter(item => item.category === cat);
+
   //Your code ends here
 
   return (
@@ -22,9 +23,6 @@ export default function ProductList({ allproducts, match }) {
             <div className="card-body">
               <Link className="nav-link" to={"/product/detail/" + product._id}>
                 <h2>{product.name}</h2>
-                {/* <h2>{product.category}</h2>
-                <h2>{product.description}</h2>
-                <h2 className="gold">{product.numReviews}</h2> */}
               </Link>
               <div className="price">${product.price}</div>
             </div>

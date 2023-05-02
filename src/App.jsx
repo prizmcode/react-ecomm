@@ -19,9 +19,9 @@ import SearchResult from "./views/SearchResult";
 import { Security } from "./views/Security";
 import EPRCompliance from "./views/EPRCompliance";
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { CheckoutForm } from '@stripe/react-stripe-js';
+//import { Elements } from '@stripe/react-stripe-js';
+//import { loadStripe } from '@stripe/stripe-js';
+//import { CheckoutForm } from '@stripe/react-stripe-js';
 
 const HomeView = lazy(() => import("./views/Home"));
 
@@ -55,7 +55,7 @@ const App = () => {
 
           <Route path="product/detail/:id" element={<ProductDetail allproducts={products} shoppingCart={shoppingCart} updateCount={setCount} />} />
 
-          <Route path="cart" element={<CartView shoppingCart={shoppingCart} updateCount={setCount} />} />
+          <Route path="cart" element={<CartView shoppingCart={shoppingCart} updateCount={setCount} setShoppingCart={setShoppingCart} />} />
           <Route path="checkout" element={<CheckoutView shoppingCart={shoppingCart} count={count} />} />
           
           <Route path="support" element={<SupportView />} />

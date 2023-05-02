@@ -5,7 +5,7 @@ import { ReactComponent as IconArrowCounterclockwiseFill } from "bootstrap-icons
 
 const CardServices = (props) => {
   return (
-    <div className="card" className="dash">
+    <div className="card dash">
       <div className="card-header font-weight-bold text-uppercase">
         Custom Service
       </div>

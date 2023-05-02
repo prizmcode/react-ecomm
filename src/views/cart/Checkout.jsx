@@ -3,10 +3,19 @@ import React from "react";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 
-export default function CheckoutView({ shoppingCart }) {
-  const products = [];//your code
-  const count = 0;//your code
-  const totalCost = 0;//your code
+export default function CheckoutView({ shoppingCart, count }) {
+  const products = Array.from(shoppingCart.products.values());
+  
+  console.log(products[0].count);
+  console.log(products[0].product.price);
+
+  
+  let totalCost = 0;
+  for (let i = 0; i < products.length; i++) {
+    
+    totalCost = totalCost + (products[i].count * products[i].product.price)
+  }
+  
   return (
     <>
       <div className="bg-secondary border-top p-4 text-white mb-3">
@@ -104,7 +113,7 @@ export default function CheckoutView({ shoppingCart }) {
               </div>
               <div className="card-footer border-info">
                 <button type="button" className="btn btn-block btn-info">
-                  Pay Now <strong>${totalCost}</strong>
+                  Pay Now <strong>${totalCost.toFixed(2)}</strong>
                 </button>
               </div>
             </div>
@@ -137,7 +146,7 @@ export default function CheckoutView({ shoppingCart }) {
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>
-                  <strong>${totalCost}</strong>
+                  <strong>${totalCost.toFixed(2)}</strong>
                 </li>
               </ul>
             </div>

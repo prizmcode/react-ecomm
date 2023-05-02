@@ -33,7 +33,6 @@ const addProduct = (shoppingCart, product, updateCount) => {
 
 const removeProduct = (shoppingCart, product, updateCount) => {
   shoppingCart.removeProduct(product._id);
-  console.log(product._id);
   getNewCount(shoppingCart, updateCount)
 }
 
